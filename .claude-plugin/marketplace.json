@@ -1,0 +1,13 @@
+{
+  "name": "cc-marketplace",
+  "owner": {
+    "name": "Simon Lind"
+  },
+  "plugins": [
+    {
+      "name": "cc",
+      "source": "./",
+      "description": "Cruise Control: human-in-the-loop TDD workflow for Claude Code. Provides /cc:init (prime a repo) and /cc:feature (build a feature test-first with git checkpoints)."
+    }
+  ]
+}

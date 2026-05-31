@@ -1,0 +1,32 @@
+{
+  "name": "@cruise-control/cli",
+  "version": "0.1.0",
+  "description": "Cruise Control CLI — sandbox checks and other code-execution helpers shipped with the cc plugin.",
+  "type": "module",
+  "bin": {
+    "cc": "./dist/cc.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "src"
+  ],
+  "oclif": {
+    "bin": "cc",
+    "topicSeparator": " "
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node build.mjs",
+    "test:unit": "node --test test/sandbox.test.ts",
+    "test": "node build.mjs && node --test test/sandbox.test.ts test/cli.e2e.test.ts"
+  },
+  "dependencies": {
+    "@oclif/core": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.19",
+    "esbuild": "^0.25.12",
+    "typescript": "^5.9.3"
+  }
+}

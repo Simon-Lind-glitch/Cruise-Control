@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "cc",
+  "displayName": "Cruise Control",
+  "version": "0.1.0",
+  "description": "Cruise Control: a disciplined, human-in-the-loop TDD workflow for Claude Code. The engineer drives; the agent holds the line and does the mechanical work. /cc:init primes a repo, /cc:feature builds features test-first with git checkpoints and small reviewable diffs.",
+  "author": {
+    "name": "Simon Lind"
+  },
+  "repository": "https://github.com/Simon-Lind-glitch/Cruise-Control",
+  "license": "MIT",
+  "keywords": [
+    "tdd",
+    "test-driven-development",
+    "workflow",
+    "git",
+    "code-review",
+    "feature-development",
+    "human-in-the-loop"
+  ]
+}
