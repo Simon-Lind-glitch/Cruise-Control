@@ -34,8 +34,10 @@ Cruise Control runs inside its devcontainer sandbox. Priming writes files, so co
 marker before anything else:
 
 - Run `node "${CLAUDE_PLUGIN_ROOT}/cli/dist/cc.js" sandbox check --strict`. Exit `0` → in the
-  sandbox, continue to Step 1. Exit `2` → not in the sandbox. (If `${CLAUDE_PLUGIN_ROOT}` isn't
-  set in your shell, apply the same rule by hand: `CC_SANDBOX=1` means in-sandbox.)
+  sandbox, continue to Step 1. Exit `2` → not in the sandbox. (The `${CLAUDE_PLUGIN_ROOT}`
+  placeholder is filled in with the plugin's install path before you read this, so the command
+  above is ready to run as-is. If it can't run for any reason, apply the rule by hand instead:
+  the `CC_SANDBOX` environment variable being `1` means in-sandbox.)
 - **If you're not in the sandbox, set it up instead of priming:**
   - Read `${CLAUDE_PLUGIN_ROOT}/assets/devcontainer/devcontainer.json` and **offer to write it**
     to `.devcontainer/devcontainer.json`.

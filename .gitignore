@@ -3,3 +3,9 @@ node_modules/
 
 # OS / editor noise
 .DS_Store
+
+# Skills-CLI install state — local per clone, re-created by `cc init` / `npx skills add`.
+.agents/
+skills-lock.json
+.claude/skills/
+.claude/settings.local.json
