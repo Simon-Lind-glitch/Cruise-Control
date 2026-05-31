@@ -71,19 +71,20 @@ test('e2e: outside, --strict → warning on stderr, exit 2', async () => {
   assert.match(r.stderr, /CC_SANDBOX is not set/)
 })
 
-test('e2e: init --dry-run → exit 0, prints a plan, writes nothing', async () => {
+test('e2e: init --dry-run → exit 0, plans the context doc, fabricates no stack, writes nothing', async () => {
   const dir = await makeRepo()
   try {
     const r = await run(['init', '--dry-run'], true, dir)
     assert.equal(r.code, 0)
-    assert.match(r.stdout, /npm test/, 'previews the detected test command')
+    assert.match(r.stdout, /cc\.md/, 'previews writing the context doc')
+    assert.doesNotMatch(r.stdout, /Stack: (TypeScript|Node|unknown)/i, 'CLI no longer detects/fabricates a stack')
     assert.equal(await exists(join(dir, '.claude', 'cc.md')), false, 'dry-run writes no context doc')
   } finally {
     await rm(dir, {recursive: true, force: true})
   }
 })
 
-test('e2e: init → exit 0, writes .claude/cc.md with detected facts', async () => {
+test('e2e: init → exit 0, writes .claude/cc.md scaffold for the agent to fill', async () => {
   const dir = await makeRepo()
   try {
     const r = await run(['init'], true, dir)
@@ -91,8 +92,9 @@ test('e2e: init → exit 0, writes .claude/cc.md with detected facts', async () 
     const docPath = join(dir, '.claude', 'cc.md')
     assert.equal(await exists(docPath), true, 'writes the context doc')
     const doc = await readFile(docPath, 'utf8')
-    assert.match(doc, /npm test/, 'doc records the detected test command')
-    assert.match(doc, /Test structure/i, 'doc records the test structure')
+    assert.match(doc, /<!--.*-->/, 'doc leaves an agent fill-in marker')
+    assert.match(doc, /Test structure/i, 'doc has a Test structure section')
+    assert.doesNotMatch(doc, /npm test/, 'CLI fabricates no detected test command')
   } finally {
     await rm(dir, {recursive: true, force: true})
   }
