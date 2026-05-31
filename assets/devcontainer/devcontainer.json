@@ -1,0 +1,11 @@
+{
+  "name": "Cruise Control sandbox",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "features": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "containerEnv": {
+    "CC_SANDBOX": "1"
+  },
+  "remoteUser": "node"
+}

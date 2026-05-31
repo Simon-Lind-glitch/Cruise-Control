@@ -1,0 +1,5 @@
+# Node deps — the CLI's bundled artifact (cli/dist/cc.js) IS committed; deps are not.
+node_modules/
+
+# OS / editor noise
+.DS_Store
