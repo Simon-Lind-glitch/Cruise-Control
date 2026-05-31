@@ -39,11 +39,15 @@ async function exists(path: string): Promise<boolean> {
 }
 
 // Make a throwaway repo dir with a minimal Node/TS layout for `cc init` to detect.
+// A pre-installed TDD anchor marker keeps apply-mode offline: planInit sees the anchor
+// present and skips the `npx skills add` network call (the boundary e2e doesn't cross).
 async function makeRepo(): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), 'cc-init-'))
   await writeFile(join(dir, 'package.json'), JSON.stringify({scripts: {test: 'node --test test/*.ts'}}))
   await mkdir(join(dir, 'test'), {recursive: true})
   await writeFile(join(dir, 'test', 'a.test.ts'), '')
+  await mkdir(join(dir, '.claude', 'skills', 'tdd'), {recursive: true})
+  await writeFile(join(dir, '.claude', 'skills', 'tdd', 'SKILL.md'), '')
   return dir
 }
 
