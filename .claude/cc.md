@@ -9,6 +9,8 @@ This repo *is* Cruise Control — the `cc` Claude Code plugin — and uses its o
 Stack: TypeScript (ESM, NodeNext, strict) · Node 22 · oclif CLI · esbuild bundle · `node --test`.
 All CLI work lives under `cli/`.
 
+## Test structure
+Tests live in `cli/test/*.test.ts` (`node:test` + `node:assert`).
 Test (from `cli/`): `npm test`        — build + unit + e2e
 Single test (from `cli/`): `node --test test/sandbox.test.ts`   (swap the file)
 Typecheck (from `cli/`): `npm run typecheck`
