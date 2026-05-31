@@ -4,6 +4,7 @@
 // filesystem command discovery — discovery does not survive single-file bundling, whereas
 // calling `Command.run()` directly does. As the command surface grows, add cases here.
 import SandboxCheck from '../src/commands/sandbox/check.js'
+import Init from '../src/commands/init.js'
 
 const VERSION = '0.1.0'
 
@@ -12,12 +13,15 @@ const HELP = [
   '',
   'USAGE',
   '  cc sandbox check [--strict]',
+  '  cc init [--dry-run]',
   '',
   'COMMANDS',
   '  sandbox check   Verify the CC_SANDBOX devcontainer sandbox marker is present.',
+  '  init            Prime this repo: detect the stack, install the TDD anchor, write .claude/cc.md.',
   '',
   'FLAGS',
   '  --strict        (sandbox check) exit 2 instead of warning when outside the sandbox.',
+  '  --dry-run       (init) preview the plan without making any changes.',
   '',
 ].join('\n')
 
@@ -26,6 +30,11 @@ async function main(argv: string[]): Promise<void> {
 
   if (topic === 'sandbox' && sub === 'check') {
     await SandboxCheck.run(rest, import.meta.url)
+    return
+  }
+
+  if (topic === 'init') {
+    await Init.run([sub, ...rest].filter((a): a is string => a !== undefined), import.meta.url)
     return
   }
 
