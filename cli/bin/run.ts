@@ -6,7 +6,7 @@
 import SandboxCheck from '../src/commands/sandbox/check.js'
 import Init from '../src/commands/init.js'
 
-const VERSION = '0.1.0'
+const VERSION = '0.2.0'
 
 const HELP = [
   'cc — Cruise Control CLI',

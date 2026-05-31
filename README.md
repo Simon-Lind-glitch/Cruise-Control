@@ -57,7 +57,12 @@ The check is a small oclif CLI shipped with the plugin and bundled to a single c
 ```
 cc sandbox check            # exit 0 in-sandbox (silent); else warn on stdout, exit 0
 cc sandbox check --strict   # exit 0 in-sandbox; else warn on stderr, exit 2 (deny)
+cc init                     # detect stack, install the TDD anchor, write .claude/cc.md
+cc init --dry-run           # preview the above (detection + plan) without changing anything
 ```
+
+`/cc:init` drives `cc init` for the mechanical work (stack detection, the context doc, the TDD
+anchor) and layers on the judgment — reading existing docs, enriching the delta, suggesting skills.
 
 Contributors who change the CLI rebuild the artifact (it is committed):
 
