@@ -5,9 +5,9 @@ description: >
   engineer runs "cc init", says "initialize cruise control / cc", "set up this
   project for cc", "init project", or is starting work in a new or unfamiliar
   repo and wants it primed before building features. It runs the `cc init` CLI
-  to detect the stack, install the TDD anchor, and write a small project-context
-  file, then layers on judgment — reading existing docs, enriching the delta, and
-  suggesting relevant skills (asking before installing any). Run this once per repo
+  to install the TDD anchor and scaffold a small project-context file, then layers
+  on judgment — determining the stack from the repo, reading existing docs, enriching
+  the delta, and suggesting relevant skills (asking before installing any). Run this once per repo
   before using /cc:feature. Do NOT use it to write features — that's the feature loop's job.
 user-invocable: true
 ---
@@ -17,18 +17,19 @@ user-invocable: true
 Prime a repo so the feature loop has the context it needs and surface useful skills —
 without adding redundancy or taking decisions away from the engineer.
 
-The mechanical work — stack detection, writing `.claude/cc.md`, installing the TDD anchor —
-is done deterministically by the **`cc init` CLI**. Your job is to drive it behind the
-engineer's approval and add the judgment the CLI can't: reading what's already documented,
-enriching the delta, and suggesting stack-specific skills.
+The scaffolding — writing the `.claude/cc.md` skeleton and installing the TDD anchor — is done
+by the **`cc init` CLI**. Determining the stack is *your* job: the CLI no longer guesses it.
+You drive the CLI behind the engineer's approval, then add the judgment it can't — reading the
+repo to **determine the stack**, reading what's already documented, enriching the delta, and
+suggesting stack-specific skills.
 
 These principles govern everything below:
 
 - **Suggest, don't auto-install.** The engineer approves before anything is written or installed.
   You always preview with `--dry-run` first; nothing lands without a yes.
 - **Pointer + delta, never a copy.** Existing READMEs and CLAUDE.md are the source of truth.
-  The context doc links to them and records *only what's missing*. The CLI writes the mechanical
-  facts; you trim anything already documented elsewhere.
+  The context doc links to them and records *only what's missing*. The CLI writes the skeleton;
+  you fill in the stack and trim anything already documented elsewhere.
 - **Small.** Init produces the shortest thing that makes the feature loop work, not an encyclopedia.
 
 ---
@@ -53,21 +54,23 @@ marker before anything else:
 
 This gate comes before everything — the rest of init assumes the sandbox.
 
-## Step 1 — Preview with `cc init --dry-run`
+## Step 1 — Determine the stack, then preview with `cc init --dry-run`
 
-Let the CLI do the detection. Run:
+First, **determine the stack yourself** by reading the repo — manifests (`package.json`,
+`pyproject.toml`, `go.mod`, `Cargo.toml`, …) wherever they live, including a sub-package
+directory like `cli/`; the test/build scripts; and the test directory, glob, and single-test
+command. This is the judgment the CLI can't do — it reads layouts (monorepos, nested packages)
+that a flat scan would miss. You'll record what you find in `.claude/cc.md` in Step 3.
+
+Then preview the plan the CLI would apply:
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/cli/dist/cc.js" init --dry-run
 ```
 
-This detects the stack (languages, test / build / single-test commands, the test directory and
-glob) and prints the plan it would apply — installing the TDD anchor (if one isn't already
-present) and writing `.claude/cc.md`. It changes nothing.
-
-Show the engineer the detected stack and the plan. This is the deterministic source of truth, so
-**don't re-derive detection by hand** — only fall back to reading manifests yourself if the CLI
-can't run for some reason.
+This prints the plan — installing the TDD anchor (if one isn't already present) and writing the
+`.claude/cc.md` scaffold. It detects nothing and changes nothing. Show the engineer the stack you
+determined and the plan.
 
 ## Step 2 — Read what's already documented
 
@@ -87,8 +90,9 @@ node "${CLAUDE_PLUGIN_ROOT}/cli/dist/cc.js" init
 This:
 - **installs the TDD anchor skill idempotently** — `mattpocock/skills tdd` by default, *skipped*
   if `.claude/skills/` already holds one (it never installs a second);
-- **writes `.claude/cc.md`** pre-filled with the detected stack and a `## Test structure` section
-  (test dir, glob, single-test command) — the facts a future session would otherwise re-discover.
+- **writes the `.claude/cc.md` scaffold** — a skeleton with `<!-- agent: … -->` fill-in markers
+  where the stack and a `## Test structure` section (test dir, glob, single-test command) go.
+  The CLI leaves these blank; **you fill them in** with the stack you determined in Step 1.
 
 **TDD anchor notes:**
 - The default anchor is the behavior-focused `mattpocock/skills tdd`. If the engineer prefers the
@@ -101,14 +105,15 @@ This:
   anchor that forbids writing the suite up front — **`/cc:feature` wins**; the anchor is reference,
   not a co-driver.
 
-**Then enrich `.claude/cc.md` with the delta the CLI can't infer** (and only that):
+**Then fill in `.claude/cc.md`** — replace the `<!-- agent: … -->` markers with the stack and test
+structure you determined in Step 1, and add the delta the CLI can't infer:
 - **Links to the real docs** — README, CONTRIBUTING, key `docs/` pages — as the sources of truth.
 - Conventions not derivable from manifests: the **commit-message convention** and **branch policy**.
-- **Trim** anything the CLI wrote that's already documented elsewhere — a duplicated fact rots.
+- **Trim** anything already documented elsewhere — a duplicated fact rots.
 
 ## Step 4 — Suggest stack-specific skills
 
-Map the detected frameworks to a few targeted searches, then present matches for approval:
+Map the frameworks you found in Step 1 to a few targeted searches, then present matches for approval:
 
 ```bash
 npx skills search <keyword>   # e.g. vitest, fastapi, terraform, playwright
@@ -123,7 +128,7 @@ their hands on the wheel.
 
 ## Step 5 — Confirm and stop
 
-Show the engineer three things: the detected stack (from `cc init`), the skills installed, and the
+Show the engineer three things: the stack you determined, the skills installed, and the
 context doc. Then make no further changes. Init is setup, not feature work — when they're ready to
 build, that's `/cc:feature`.
 
@@ -131,7 +136,7 @@ build, that's `/cc:feature`.
 
 ## What this skill deliberately does NOT do
 
-- Hand-roll stack detection or doc-writing the `cc init` CLI already does deterministically.
+- Re-roll the scaffolding or anchor install the `cc init` CLI already does.
 - Install skills (or apply `cc init`) without a preview and approval.
 - Restate anything already in a README or CLAUDE.md.
 - Produce a sprawling document — pointer + delta only.
