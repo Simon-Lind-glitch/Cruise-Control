@@ -99,6 +99,15 @@ Don't replace it with branches or worktrees unless the engineer asks for them.
 The tests are the specification. *Which behaviors matter* is the engineer's call, not
 yours, so your job is to propose a tight starting point and then let them shape it.
 
+**Load the `tdd` skill first.** Invoke the external `tdd` skill (via the Skill tool) before
+you spec or write any tests — it owns the red-green craft: what a clean failing test looks
+like, testing behavior over implementation, when to refactor. This skill does not restate
+that craft; it relies on `tdd` for it.
+
+**Where this skill and `tdd` overlap, this skill's commit and confirmation rules take precedence.**
+Follow `tdd` for *how* to write the tests; follow this skill for *when to stop and confirm* and
+*how to commit* (the red checkpoint and atomic green commits below).
+
 ### Propose a small suite
 
 Default to the *smallest* suite that pins the real behavior. Test minimalism is the
@@ -133,7 +142,7 @@ That's the smallest set I'd start with. What's missing, and what should change?
 1. Ask explicitly what's missing or wrong. Add and cut cases until the engineer is happy.
    *This is the most important moment of the whole loop — don't rush past it.*
 2. On their confirmation, write the tests, run them, and confirm they fail **for the
-   right reason** (red because the behavior is absent, not red from a typo or import error).
+   right reason** (the `tdd` skill describes what a clean red looks like).
 3. Commit the failing tests: `git commit -m "test: <feature> (red)"`. **This commit is the
    checkpoint.** Reverting the whole feature later is just `git reset --hard <this commit>`.
 
