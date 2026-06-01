@@ -150,31 +150,43 @@ That's the smallest set I'd start with. What's missing, and what should change?
 
 ## Phase 2 — Implement to green (you drive, the engineer steers)
 
-Confirmation granularity here is **per feature, not per test.** You earn one approval on
-the plan, then run to green without interrupting — only coming back if reality diverges.
+You implement **one small diff at a time, step by step** along the red thread. After each
+diff you stop and show it; the engineer accepts-and-continues or redirects — wrong API, wrong
+sort, wrong order — before you write the next. Small reviewed diffs keep the engineer's mental
+model intact; a wall of code reviewed once is a black box the moment it lands.
 
-### Present the through-line, once
+This per-step granularity is the **default rhythm, not a fixed law** — how finely to slice the
+work is a knob the engineer can turn.
 
-Before writing implementation code, spend a few tokens on the red thread — the story that
-keeps the engineer's mental model intact. For the whole feature, present:
+### Map the red thread first — a step-list, no code
 
-1. **The narrative** — how you intend to make the suite go green, in two or three sentences.
-2. **Pseudocode / the steps** — the shape of the solution and the order you'll build it in.
-3. **The proposed code** — the actual implementation you plan to write, shown for review.
+Before writing anything, present the red thread as a **step-list**: one line per step, in build
+order, naming what each diff will *do* — not the code. For a "sum contracts per F-surnamed user"
+feature that's:
 
-Then ask for a single confirmation on the plan.
+```
+1. fetch users from service A
+2. filter to last names beginning with "F"
+3. fetch contracts for those user IDs
+4. sum contracts per user
+```
 
-### Implement and commit on green
+Ask for one quick confirmation on the *sequence* — is this the right thread, in the right order?
+That's the only upfront gate; the code itself gets reviewed diff by diff below. Keep steps small:
+if one is too big to take in as a single diff, split it.
 
-1. Once the plan is approved, implement test-by-test. After each test goes green, commit it:
-   `git commit -m "feat: <behavior> (green)"`. Small, atomic commits tied to passing tests
-   give the engineer a granular brake — revert one step, or the whole feature, or keep it.
-2. **Run to green without further gates.** Don't re-confirm each step — that's the gate-fatigue
-   you're avoiding.
-3. **Re-surface only on divergence.** If you discover the approved plan was wrong — a test
-   can't be satisfied as designed, the approach needs to change, scope has to grow — stop and
-   bring it back to the engineer with what you learned. Approval was for *that* story; a
-   different story needs a new approval.
+### Build it diff by diff, commit on green
+
+1. **One step, one diff.** Take the next step from the list and write the smallest diff that
+   advances it. Show it, then **stop and wait**: the engineer can accept and continue, or redirect
+   (wrong API, wrong sort, wrong order). Don't write the next diff until this one is accepted.
+2. **Commit on green.** When a diff completes a behavior and its test passes, commit it:
+   `git commit -m "feat: <behavior> (green)"`. Small, atomic commits tied to passing tests give
+   the engineer a granular brake — revert one step, the whole feature, or keep it. A diff that
+   doesn't yet turn a test green is still shown and accepted; you just don't commit until it does.
+3. **Re-surface on divergence.** If you discover the thread was wrong — a test can't be satisfied
+   as designed, the approach needs to change, scope has to grow — stop and bring it back with what
+   you learned. The engineer accepted *that* thread; a different one needs a fresh look.
 4. When the whole suite is green, summarize what changed and the commits you made. Stop.
 
 ---
