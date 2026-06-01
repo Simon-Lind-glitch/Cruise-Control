@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/Simon-Lind-glitch/Cruise-Control/compare/v1.0.0...v1.1.0) (2026-06-01)
+
+
+### Features
+
+* minimal-ceremony identity is small diffs, not big gates (green) ([cbb91b4](https://github.com/Simon-Lind-glitch/Cruise-Control/commit/cbb91b4d427a3476b0830b2a1c87b8154742e3eb))
+* per-diff checkpoint is an options question (green) ([1d98db0](https://github.com/Simon-Lind-glitch/Cruise-Control/commit/1d98db0c30b053b3500741f94bcb5c2f1f5bef18))
+* Phase 2 body runs as per-diff accept/redirect checkpoints (green) ([a2eabbf](https://github.com/Simon-Lind-glitch/Cruise-Control/commit/a2eabbfb112253e678f2d70336eb4b8b306bb60f))
+
 # 1.0.0 (2026-05-31)
 
 
