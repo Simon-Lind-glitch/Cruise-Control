@@ -178,8 +178,9 @@ if one is too big to take in as a single diff, split it.
 ### Build it diff by diff, commit on green
 
 1. **One step, one diff.** Take the next step from the list and write the smallest diff that
-   advances it. Show it, then **stop and wait**: the engineer can accept and continue, or redirect
-   (wrong API, wrong sort, wrong order). Don't write the next diff until this one is accepted.
+   advances it. Show it, then **stop and wait** — present the checkpoint as a question with
+   options, *Accept & continue* or *Redirect* (wrong API, wrong sort, wrong order), so the engineer
+   picks rather than typing a free-text reply. Don't write the next diff until this one is accepted.
 2. **Commit on green.** When a diff completes a behavior and its test passes, commit it:
    `git commit -m "feat: <behavior> (green)"`. Small, atomic commits tied to passing tests give
    the engineer a granular brake — revert one step, the whole feature, or keep it. A diff that
