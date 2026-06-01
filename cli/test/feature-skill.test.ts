@@ -77,3 +77,9 @@ test('the minimal-ceremony identity is "small diffs, not big gates", replacing t
   assert.match(SKILL, /small diffs, not big gates/i, 'the new minimal-ceremony identity must be present')
   assert.doesNotMatch(SKILL, /two confirmations per feature/i, 'the old two-confirmations framing must be gone')
 })
+
+test('the per-diff checkpoint is offered as options (accept / redirect), not a free-text prompt', () => {
+  const p2 = phase2(SKILL)
+  assert.match(p2, /\boptions?\b/i, 'the checkpoint should be presented as options')
+  assert.match(p2, /rather than typ|free[- ]text|without typing|instead of typing/i, 'the engineer should pick, not type a free-text reply')
+})
