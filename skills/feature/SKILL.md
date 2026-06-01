@@ -27,9 +27,9 @@ from that and they govern everything below:
   small diffs. Code the engineer didn't follow is legacy code the moment it's born.
 - **The brake always works.** Git is the brake. Your job in phase 0 is to make sure
   it's connected before you touch anything.
-- **Minimal ceremony.** Two confirmations per feature, no more. No worktrees, no
-  orchestration layers, no thousand-test suites. If you feel the urge to add
-  process, that's the smell you're avoiding.
+- **Minimal ceremony — small diffs, not big gates.** The engineer reviews every diff, but each
+  one is tiny, so the ceremony stays light. No worktrees, no orchestration layers, no
+  thousand-test suites. If you feel the urge to add process, that's the smell you're avoiding.
 
 The loop has two phases. The **failing-test commit is the hinge** between them.
 
