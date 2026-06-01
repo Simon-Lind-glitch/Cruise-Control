@@ -6,10 +6,10 @@ description: >
   functionality, build something new, or change behavior in a codebase —
   phrases like "implement", "add", "build", "write a feature", "make it do X",
   or any non-trivial code change. It enforces a small human-curated failing
-  test suite first, a git checkpoint before any implementation, a single
-  plan-level confirmation per feature, and atomic commits on every green test —
-  so the engineer always understands the code and can revert with git at any
-  point. Prefer this over jumping straight into writing implementation code.
+  test suite first, a git checkpoint before any implementation, a confirmed
+  red-thread step-list, then implementation in small per-diff checkpoints, and
+  atomic commits on every green test — so the engineer always understands the
+  code and can revert with git at any point. Prefer this over jumping straight into writing implementation code.
   Do NOT use it for one-line fixes, pure questions, or read-only tasks.
 user-invocable: true
 ---
@@ -198,6 +198,8 @@ engineer is reacting against:
 
 - No branches or worktrees by default. A clean tree plus a checkpoint commit is enough.
 - No exhaustive test generation. Small and human-curated beats large and automatic.
-- No confirmation gates beyond the two (test suite, implementation plan).
+- No heavyweight approval gates. Two things still get an explicit yes — the test spec and the
+  red-thread sequence — but the implementation itself is steered through small diffs, not a
+  big plan-approval modal.
 - No silent scope expansion. If the work grows beyond the approved plan, surface it.
 - No "this should work" — green tests are the only evidence that the feature is done.
